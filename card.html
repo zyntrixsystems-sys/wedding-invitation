@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Wedding Invitation</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;600&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --w: min(380px, 86vw);
+            --h: calc(var(--w)*.64);
+            --gold: #d4af37;
+            --gold2: #f6e27a;
+            --gold3: #a67c1a;
+            --ivory: #fff8e8;
+            --goldgrad: linear-gradient(135deg, #a67c1a, #f6e27a 35%, #d4af37 60%, #8a6410);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--ivory);
+            background: radial-gradient(ellipse at 50% 30%, #8a1538 0%, #5a0b22 48%, #2a0511 100%);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: .16;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23d4af37' stroke-width='1'%3E%3Crect x='20' y='20' width='40' height='40'/%3E%3Crect x='20' y='20' width='40' height='40' transform='rotate(45 40 40)'/%3E%3Ccircle cx='40' cy='40' r='8'/%3E%3Cpath d='M0 0L20 20M80 0L60 20M0 80L20 60M80 80L60 60'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+            border: 0
+        }
+
+        .rays {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            width: 160vmax;
+            height: 160vmax;
+            margin: -80vmax 0 0 -80vmax;
+            background: repeating-conic-gradient(from 0deg, rgba(246, 226, 122, .2) 0 5deg, transparent 5deg 15deg);
+            -webkit-mask-image: radial-gradient(circle, #000 0, transparent 55%);
+            mask-image: radial-gradient(circle, #000 0, transparent 55%);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .vignette {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            background: radial-gradient(circle at 50% 50%, transparent 35%, rgba(10, 0, 5, .7) 100%)
+        }
+
+        .dust {
+            position: fixed;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fff3b0, rgba(212, 175, 55, .2) 70%, transparent)
+        }
+
+        .band {
+            position: fixed;
+            left: 0;
+            right: 0;
+            height: 14px;
+            z-index: 1;
+            pointer-events: none;
+            opacity: .9;
+            background: repeating-linear-gradient(90deg, var(--gold) 0 10px, transparent 10px 14px);
+            -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent)
+        }
+
+        .band.t {
+            top: 10px
+        }
+
+        .band.b {
+            bottom: 10px
+        }
+
+        .stage {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none
+        }
+
+        .env-stage {
+            perspective: 1400px
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 999px;
+            color: #3a0716;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            background: var(--goldgrad);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .6), 0 0 0 1px rgba(255, 235, 150, .5);
+            transition: transform .2s, filter .2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.08)
+        }
+
+        .btn:active {
+            transform: scale(.97)
+        }
+
+        .btn:disabled {
+            opacity: .7;
+            cursor: default
+        }
+
+        .btn:focus-visible,
+        .seal:focus-visible {
+            outline: 2px solid var(--gold2);
+            outline-offset: 4px
+        }
+
+        /* intro */
+        .intro {
+            text-align: center;
+            max-width: 520px;
+            display: flex;
+            flex-direction: column;
+            align-items: center
+        }
+
+        .arch {
+            width: clamp(70px, 16vw, 96px);
+            margin-bottom: 6px
+        }
+
+        .gtext {
+            background: var(--goldgrad);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent
+        }
+
+        .bism {
+            font-family: 'Amiri', serif;
+            font-size: clamp(28px, 7vw, 40px);
+            line-height: 1.5;
+            direction: rtl
+        }
+
+        .kicker {
+            font-family: 'Cinzel', serif;
+            font-size: 12px;
+            letter-spacing: .4em;
+            text-transform: uppercase;
+            color: var(--gold2);
+            margin-top: 6px
+        }
+
+        .names {
+            font-family: 'Great Vibes', cursive;
+            font-weight: 400;
+            font-size: clamp(54px, 15vw, 96px);
+            line-height: 1.15;
+            margin: .15em 0 .05em;
+            filter: drop-shadow(0 3px 10px rgba(0, 0, 0, .5))
+        }
+
+        .orn {
+            margin: 10px 0;
+            color: var(--gold);
+            letter-spacing: .7em;
+            font-size: 14px
+        }
+
+        .intro p {
+            font-size: clamp(18px, 4.2vw, 22px);
+            line-height: 1.5;
+            margin: 0 auto 24px;
+            max-width: 380px;
+            color: #f6e6c3
+        }
+
+        /* envelope */
+        .float {
+            position: relative;
+            width: var(--w);
+            height: var(--h)
+        }
+
+        .tilt,
+        .env {
+            position: relative;
+            width: 100%;
+            height: 100%
+        }
+
+        .shadow {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: calc(var(--w)*1.05);
+            height: 34px;
+            margin: calc(var(--h)/2 + 30px) 0 0 calc(var(--w)/-2.1);
+            background: radial-gradient(ellipse, rgba(0, 0, 0, .65), transparent 70%);
+            filter: blur(6px);
+            pointer-events: none
+        }
+
+        .back {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            border-radius: 6px;
+            background: linear-gradient(170deg, #6d0f2c, #3d0618);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, .55), inset 0 8px 18px rgba(0, 0, 0, .4), 0 0 0 1px rgba(212, 175, 55, .6)
+        }
+
+        .pocket {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            border-radius: 6px;
+            overflow: hidden;
+            pointer-events: none
+        }
+
+        .pocket i {
+            position: absolute;
+            inset: 0;
+            display: block
+        }
+
+        .pl {
+            background: linear-gradient(100deg, #8d1636, #6a0f2b);
+            clip-path: polygon(0 0, 52% 52%, 0 100%)
+        }
+
+        .pr {
+            background: linear-gradient(260deg, #8d1636, #650e28);
+            clip-path: polygon(100% 0, 48% 52%, 100% 100%)
+        }
+
+        .pb {
+            background: linear-gradient(180deg, #9c1a3d, #6a0f2b);
+            clip-path: polygon(-1% 101%, 50% 44%, 101% 101%)
+        }
+
+        .pocket svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%
+        }
+
+        .to {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 9%;
+            text-align: center;
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(20px, 5vw, 26px)
+        }
+
+        .flap {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 64%;
+            z-index: 4;
+            transform-style: preserve-3d
+        }
+
+        .face {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden
+        }
+
+        .flap .front {
+            background: linear-gradient(180deg, #a01c40, #780f2d);
+            clip-path: polygon(0 0, 100% 0, 50% 100%)
+        }
+
+        .flap .front svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%
+        }
+
+        .flap .rear {
+            transform: rotateX(180deg);
+            clip-path: polygon(0 100%, 100% 100%, 50% 0);
+            background: linear-gradient(0deg, #07382c, #0f6a53)
+        }
+
+        .seal {
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            z-index: 5;
+            width: 62px;
+            height: 62px;
+            margin: -31px 0 0 -31px;
+            border-radius: 50% 48% 52% 50%/49% 52% 48% 51%;
+            background: radial-gradient(circle at 35% 30%, #fff1a8, #d4af37 52%, #8a6410);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, .55), inset 0 -4px 7px rgba(80, 50, 0, .45), inset 0 2px 4px rgba(255, 255, 255, .6);
+            display: grid;
+            place-items: center;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transition: filter .25s
+        }
+
+        .seal:hover {
+            filter: brightness(1.1)
+        }
+
+        .seal svg {
+            width: 34px;
+            height: 34px;
+            animation: beat 2s ease-in-out infinite
+        }
+
+        .seal::after {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 2px solid rgba(246, 226, 122, .8);
+            animation: ring 1.8s ease-out infinite
+        }
+
+        @keyframes beat {
+
+            0%,
+            100% {
+                transform: scale(1)
+            }
+
+            15% {
+                transform: scale(1.14)
+            }
+
+            30% {
+                transform: scale(1)
+            }
+        }
+
+        @keyframes ring {
+            0% {
+                transform: scale(.8);
+                opacity: .9
+            }
+
+            100% {
+                transform: scale(1.7);
+                opacity: 0
+            }
+        }
+
+        .hint {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 100%;
+            margin-top: 56px;
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            font-size: 12px;
+            letter-spacing: .35em;
+            text-transform: uppercase;
+            color: var(--gold2);
+            animation: blink 2.4s ease-in-out infinite
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: .45
+            }
+
+            50% {
+                opacity: 1
+            }
+        }
+
+        /* card */
+        .card {
+            position: absolute;
+            left: 50%;
+            bottom: 12px;
+            z-index: 2;
+            pointer-events: none;
+            width: calc(var(--w)*.86);
+            height: calc(var(--h)*.82)
+        }
+
+        .flip {
+            position: absolute;
+            inset: 0;
+            transform-style: preserve-3d
+        }
+
+        .cface {
+            position: absolute;
+            inset: 0;
+            border-radius: 6px;
+            overflow: hidden;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            background: linear-gradient(160deg, #fffaf0, #f4e2b8);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .45), 0 0 0 1px rgba(166, 124, 26, .8)
+        }
+
+        .cface::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: .09;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%235a0b22' stroke-width='1'%3E%3Crect x='20' y='20' width='40' height='40'/%3E%3Crect x='20' y='20' width='40' height='40' transform='rotate(45 40 40)'/%3E%3Ccircle cx='40' cy='40' r='8'/%3E%3C/g%3E%3C/svg%3E")
+        }
+
+        .cface::after {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border: 1.5px solid var(--gold3);
+            border-radius: 3px;
+            pointer-events: none;
+            box-shadow: inset 0 0 0 5px rgba(166, 124, 26, .3)
+        }
+
+        .cface.cover {
+            container-type: inline-size;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(160deg, #7d1232, #4a0a1c)
+        }
+
+        .cover::before {
+            opacity: .22;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23d4af37' stroke-width='1'%3E%3Crect x='20' y='20' width='40' height='40'/%3E%3Crect x='20' y='20' width='40' height='40' transform='rotate(45 40 40)'/%3E%3Ccircle cx='40' cy='40' r='8'/%3E%3C/g%3E%3C/svg%3E")
+        }
+
+        .cover::after {
+            border-color: var(--gold);
+            box-shadow: inset 0 0 0 5px rgba(212, 175, 55, .3)
+        }
+
+        .cov-in {
+            position: relative;
+            z-index: 1;
+            width: 42%;
+            aspect-ratio: 100/150;
+            display: grid;
+            place-items: center
+        }
+
+        .cov-in svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%
+        }
+
+        .mono {
+            position: relative;
+            font-family: 'Great Vibes', cursive;
+            font-size: 15cqw;
+            line-height: 1;
+            padding-top: 14%;
+            padding-right: 4%;
+            padding-bottom: 4%;
+            background: var(--goldgrad);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .cface.detail {
+            transform: rotateY(180deg);
+            color: #4a0a1c
+        }
+
+        .paper {
+            position: absolute;
+            inset: 0;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            z-index: 1;
+            padding: clamp(26px, 6vw, 44px) clamp(24px, 6vw, 44px) 34px;
+            text-align: center;
+            scrollbar-width: thin;
+            scrollbar-color: #c9a24a transparent
+        }
+
+        .detail .bism {
+            font-size: clamp(26px, 6vw, 34px);
+            background: none;
+            -webkit-text-fill-color: #8a1538;
+            color: #8a1538
+        }
+
+        .detail .orn {
+            color: var(--gold3);
+            margin: 6px 0 10px
+        }
+
+        .small {
+            font-style: italic;
+            font-size: clamp(17px, 2.4vw, 20px);
+            line-height: 1.4;
+            color: #6b2a3a
+        }
+
+        .nm {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(46px, 9vw, 64px);
+            line-height: 1.2;
+            color: #8a1538
+        }
+
+        .amp {
+            font-family: 'Cinzel', serif;
+            color: var(--gold3);
+            font-size: 20px;
+            margin: -2px 0
+        }
+
+        .events {
+            margin: 18px 0 6px;
+            display: grid;
+            gap: 12px
+        }
+
+        .ev {
+            border: 1px solid rgba(166, 124, 26, .6);
+            border-radius: 10px;
+            padding: 12px 10px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .55), rgba(246, 226, 160, .25))
+        }
+
+        .ev h3 {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            letter-spacing: .28em;
+            text-transform: uppercase;
+            font-size: 14px;
+            color: #8a1538
+        }
+
+        .ev .d {
+            font-size: clamp(18px, 2.6vw, 21px);
+            font-weight: 600;
+            margin-top: 3px
+        }
+
+        .ev .t {
+            font-size: clamp(16px, 2.2vw, 19px);
+            font-style: italic;
+            color: #6b2a3a
+        }
+
+        .ev .v {
+            font-size: clamp(15px, 2vw, 17px);
+            margin-top: 3px;
+            opacity: .85
+        }
+
+        .urdu {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            direction: rtl;
+            font-size: clamp(17px, 3.2vw, 21px);
+            line-height: 2.2;
+            color: #8a1538;
+            margin-top: 14px
+        }
+
+        .rsvp {
+            margin-top: 8px;
+            font-family: 'Cinzel', serif;
+            letter-spacing: .18em;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #6b2a3a;
+            line-height: 1.9
+        }
+
+        /* fx */
+        #fx {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            pointer-events: none
+        }
+
+        .flare,
+        .streak {
+            position: fixed;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 60;
+            mix-blend-mode: screen
+        }
+
+        .flare {
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 248, 210, .98) 0, rgba(246, 200, 90, .5) 30%, rgba(212, 140, 40, .14) 50%, transparent 68%)
+        }
+
+        .streak {
+            width: 90vw;
+            height: 4px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, transparent, rgba(255, 244, 200, .98) 50%, transparent);
+            box-shadow: 0 0 22px 6px rgba(246, 200, 90, .6)
+        }
+
+        .replay {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 28px;
+            margin: 0 auto;
+            width: max-content;
+            z-index: 70;
+            opacity: 0;
+            pointer-events: none;
+            background: rgba(0, 0, 0, .35);
+            border: 1px solid rgba(246, 226, 122, .5);
+            color: var(--gold2);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            letter-spacing: .25em;
+            text-transform: uppercase;
+            backdrop-filter: blur(6px)
+        }
+
+        .replay:hover {
+            background: rgba(0, 0, 0, .55)
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="rays"></div>
+    <div class="vignette"></div>
+    <div class="band t"></div>
+    <div class="band b"></div>
+
+    <main id="app">
+        <section class="stage" id="s-intro" aria-label="Welcome">
+            <div class="intro">
+                <svg class="arch" viewBox="0 0 100 160" fill="none" stroke="#d4af37" stroke-width="2"
+                    aria-hidden="true">
+                    <path d="M8 158V72Q8 40 50 6Q92 40 92 72V158" />
+                    <path d="M20 158V76Q20 52 50 24Q80 52 80 76V158" opacity=".6" />
+                    <circle cx="50" cy="70" r="6" fill="#d4af37" stroke="none" />
+                </svg>
+                <div class="bism gtext">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+                <div class="kicker">Wedding Invitation</div>
+                <h1 class="names gtext" id="introNames"></h1>
+                <div class="orn">&#10070; &#10022; &#10070;</div>
+                <p id="introLine"></p>
+                <button class="btn" id="begin">Open Invitation</button>
+            </div>
+        </section>
+    </main>
+
+    <canvas id="fx"></canvas>
+    <div class="flare"></div>
+    <div class="streak"></div>
+    <button class="replay" id="replay">&#8635; Replay</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script>
+        /* ================= EDIT THESE ================= */
+        const CONFIG = {
+            bride: "Ayesha",
+            groom: "Hamza",
+            introLine: "With the blessings of Allah and our elders, we joyfully invite you to share in our happiness.",
+            families: "Together with their families",
+            invite: "cordially invite you to celebrate their wedding",
+            events: [
+                { name: "Mehndi", date: "Wednesday, 9 December 2026", time: "7:00 PM onwards", venue: "Lawn Hall, Lahore" },
+                { name: "Baraat", date: "Friday, 11 December 2026", time: "6:30 PM · Arrival", venue: "Royal Palm Banquet, Lahore" },
+                { name: "Nikah", date: "Friday, 11 December 2026", time: "8:00 PM", venue: "Royal Palm Banquet, Lahore" },
+                { name: "Walima", date: "Saturday, 12 December 2026", time: "7:30 PM · Dinner to follow", venue: "Pearl Continental, Lahore" }
+            ],
+            urdu: "آپ کی آمد ہمارے لیے باعثِ مسرت ہوگی",
+            rsvp: "RSVP by 1 December 2026",
+            contact: "+92 300 0000000"
+        };
+        /* ============================================== */
+
+        const $ = s => document.querySelector(s);
+        const rand = (a, b) => a + Math.random() * (b - a);
+        const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+        const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        $('#introNames').textContent = CONFIG.bride + ' & ' + CONFIG.groom;
+        $('#introLine').textContent = CONFIG.introLine;
+
+        /* ---------- ambient gold dust ---------- */
+        for (let i = 0; i < (RM ? 10 : 42); i++) {
+            const d = document.createElement('span'); d.className = 'dust';
+            const s = rand(3, 8); d.style.width = d.style.height = s + 'px'; d.style.left = rand(0, 100) + 'vw'; document.body.appendChild(d);
+            if (RM) { d.style.top = rand(0, 100) + 'vh'; d.style.opacity = .5; continue }
+            gsap.fromTo(d, { y: innerHeight + 20, opacity: 0 }, { y: -40, opacity: rand(.5, 1), duration: rand(10, 22), repeat: -1, ease: 'none', delay: -rand(0, 20) });
+            gsap.to(d, { x: rand(-40, 40), duration: rand(3, 6), yoyo: true, repeat: -1, ease: 'sine.inOut' });
+        }
+
+        /* ---------- particles: gold sparks, stars, rose petals ---------- */
+        const cv = $('#fx'), ctx = cv.getContext('2d');
+        let W, H; const dpr = Math.min(devicePixelRatio || 1, 2);
+        function resize() { W = innerWidth; H = innerHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0) }
+        addEventListener('resize', resize); resize();
+
+        const parts = []; let running = false;
+        const gold = [[45, 90, 62], [40, 95, 56], [50, 95, 75], [36, 90, 52]];
+        const petalC = [[350, 70, 52], [340, 65, 60], [20, 92, 55], [45, 95, 58], [330, 60, 70]];
+        const pickG = () => gold[(Math.random() * gold.length) | 0], pickP = () => petalC[(Math.random() * petalC.length) | 0];
+        const kick = () => { if (!running) { running = true; requestAnimationFrame(frame) } };
+
+        function burst(x, y, n = 80, power = 1) {
+            n = Math.round(n * (RM ? .3 : 1));
+            for (let i = 0; i < n; i++) {
+                const a = Math.random() * 6.283, s = rand(2, 11) * power, r = Math.random();
+                const t = r < .4 ? 'spark' : r < .6 ? 'star' : 'petal';
+                const p = {
+                    t, x, y, life: 0, rot: rand(0, 6.28), vr: rand(-.12, .12), ph: rand(0, 6.28),
+                    vx: Math.cos(a) * s, vy: Math.sin(a) * s - 1.5, c: t === 'petal' ? pickP() : pickG()
+                };
+                if (t === 'petal') { p.g = .07; p.fr = .97; p.max = rand(100, 170); p.size = rand(6, 11) }
+                else { p.g = .1; p.fr = .965; p.max = rand(50, 110); p.size = rand(1.5, 4) }
+                parts.push(p);
+            }
+            kick();
+        }
+        function petalRain(n = 70) {
+            if (RM) n = 20;
+            for (let b = 0; b < 6; b++) gsap.delayedCall(b * .25, () => {
+                for (let i = 0; i < n / 6; i++) parts.push({
+                    t: 'petal', x: rand(0, W), y: rand(-40, -5), vx: rand(-1, 1), vy: rand(1.5, 3.5),
+                    g: .03, fr: .995, life: 0, max: rand(180, 270), size: rand(6, 11), c: pickP(), rot: rand(0, 6.28), vr: rand(-.08, .08), ph: rand(0, 6.28)
+                });
+                kick();
+            });
+        }
+        function starPath(s) { ctx.beginPath(); for (let i = 0; i < 8; i++) { const r = i % 2 ? s * .28 : s, a = i * Math.PI / 4; ctx[i ? 'lineTo' : 'moveTo'](Math.cos(a) * r, Math.sin(a) * r) } ctx.closePath() }
+        function frame() {
+            ctx.clearRect(0, 0, W, H);
+            for (let i = parts.length - 1; i >= 0; i--) {
+                const p = parts[i]; p.life++;
+                if (p.life > p.max) { parts.splice(i, 1); continue }
+                p.vx *= p.fr; p.vy = p.vy * p.fr + p.g; p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+                const k = 1 - p.life / p.max, a = Math.min(1, k * 1.7), [h, s, l] = p.c;
+                if (p.t === 'spark') {
+                    ctx.globalCompositeOperation = 'lighter';
+                    ctx.strokeStyle = `hsla(${h},${s}%,${l}%,${a})`; ctx.lineWidth = p.size * k + .5; ctx.lineCap = 'round';
+                    ctx.beginPath(); ctx.moveTo(p.x - p.vx * 2.2, p.y - p.vy * 2.2); ctx.lineTo(p.x, p.y); ctx.stroke();
+                    ctx.fillStyle = `hsla(${h},${s}%,${l}%,${a * .2})`; ctx.beginPath(); ctx.arc(p.x, p.y, p.size * 3.5 * k, 0, 6.28); ctx.fill();
+                } else if (p.t === 'star') {
+                    ctx.globalCompositeOperation = 'lighter';
+                    ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = `hsla(${h},${s}%,${l}%,${a})`;
+                    ctx.shadowColor = `hsla(${h},100%,70%,${a})`; ctx.shadowBlur = 10; starPath(p.size * 3.2 * (.4 + k * .6)); ctx.fill(); ctx.restore();
+                } else {
+                    ctx.globalCompositeOperation = 'source-over';
+                    ctx.save(); ctx.translate(p.x + Math.sin(p.life * .07 + p.ph) * 8, p.y); ctx.rotate(p.rot); ctx.scale(1, .45 + .55 * Math.abs(Math.cos(p.life * .1 + p.ph)));
+                    ctx.fillStyle = `hsla(${h},${s}%,${l}%,${a})`;
+                    ctx.beginPath(); ctx.ellipse(0, 0, p.size, p.size * .55, 0, 0, 6.283); ctx.fill(); ctx.restore();
+                }
+            }
+            ctx.globalCompositeOperation = 'source-over';
+            if (parts.length) requestAnimationFrame(frame); else { running = false; ctx.clearRect(0, 0, W, H) }
+        }
+        const flare = $('.flare'), streak = $('.streak');
+        function flash(x, y, s = 1) {
+            if (RM) return;
+            gsap.set([flare, streak], { left: x, top: y, xPercent: -50, yPercent: -50 });
+            gsap.fromTo(flare, { scale: .1, opacity: 1 }, { scale: 2.4 * s, opacity: 0, duration: 1.2, ease: 'power2.out' });
+            gsap.fromTo(streak, { scaleX: .05, opacity: 1 }, { scaleX: 1.2 * s, opacity: 0, duration: 1, ease: 'expo.out' });
+        }
+
+        /* ---------- stage manager ---------- */
+        const intro = $('#s-intro'), rays = $('.rays'), vignette = $('.vignette'), replay = $('#replay');
+        const raysSpin = gsap.to(rays, { rotation: 360, duration: 140, repeat: -1, ease: 'none', paused: true });
+        let busy = false, currentCtl = null;
+        function lightsOn() { gsap.to(vignette, { opacity: 1, duration: 1.8 }); gsap.to(rays, { opacity: 1, duration: 2.2, delay: .2 }); if (!RM) raysSpin.play() }
+
+        addEventListener('pointermove', e => {
+            if (!currentCtl || RM) return;
+            const nx = (e.clientX / innerWidth - .5) * 2, ny = (e.clientY / innerHeight - .5) * 2, k = currentCtl.tiltK;
+            gsap.to(currentCtl.tilt, { rotationY: nx * 14 * k, rotationX: -ny * 9 * k, duration: .9, ease: 'power3.out', overwrite: 'auto' });
+        });
+
+        gsap.set(intro, { opacity: 1, visibility: 'visible', pointerEvents: 'auto' });
+        gsap.from('.intro > *', { y: 24, opacity: 0, duration: 1, stagger: .14, ease: 'power3.out', clearProps: 'transform,opacity' });
+
+        $('#begin').addEventListener('click', e => {
+            if (busy) return; busy = true; e.currentTarget.disabled = true;
+            const ctl = createEnvelope();
+            gsap.to(intro, {
+                opacity: 0, duration: .7, ease: 'power2.inOut', onComplete() {
+                    intro.style.visibility = 'hidden'; intro.style.pointerEvents = 'none';
+                    currentCtl = ctl;
+                    ctl.el.style.visibility = 'visible'; ctl.el.style.pointerEvents = 'auto';
+                    gsap.to(ctl.el, { opacity: 1, duration: .8, ease: 'power2.out' });
+                    ctl.enter();
+                }
+            });
+        });
+
+        /* ---------- envelope + flip card ---------- */
+        function createEnvelope() {
+            const el = document.createElement('section');
+            el.className = 'stage env-stage'; el.setAttribute('aria-label', 'Wedding invitation envelope');
+
+            const events = CONFIG.events.map(e => `
+    <div class="ev rv"><h3>${esc(e.name)}</h3><div class="d">${esc(e.date)}</div>
+    <div class="t">${esc(e.time)}</div><div class="v">${esc(e.venue)}</div></div>`).join('');
+
+            const goldLines = (pts) => `<svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="#d4af37" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg>`;
+
+            el.innerHTML = `
+    <div class="shadow"></div>
+    <div class="float">
+      <div class="tilt"><div class="env">
+        <div class="back"></div>
+
+        <div class="card"><div class="flip">
+          <div class="cface cover"><div class="cov-in">
+            <svg viewBox="0 0 100 150" fill="none" stroke="#d4af37" stroke-width="1.6" aria-hidden="true">
+              <path d="M6 146V66Q6 36 50 4Q94 36 94 66V146Z"/><path d="M13 146V69Q13 44 50 14Q87 44 87 69V146" opacity=".55"/>
+            </svg>
+            <div class="mono">${esc(CONFIG.bride[0])} &amp; ${esc(CONFIG.groom[0])}</div>
+          </div></div>
+
+          <div class="cface detail"><div class="paper"><div class="inv">
+            <div class="bism rv">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+            <div class="orn rv">&#10070; &#10022; &#10070;</div>
+            <p class="small rv">${esc(CONFIG.families)}</p>
+            <div class="nm rv">${esc(CONFIG.bride)}</div>
+            <div class="amp rv">&amp;</div>
+            <div class="nm rv">${esc(CONFIG.groom)}</div>
+            <p class="small rv">${esc(CONFIG.invite)}</p>
+            <div class="events">${events}</div>
+            <div class="urdu rv">${esc(CONFIG.urdu)}</div>
+            <div class="orn rv">&#10070; &#10022; &#10070;</div>
+            <div class="rsvp rv">${esc(CONFIG.rsvp)}<br>${esc(CONFIG.contact)}</div>
+          </div></div></div>
+        </div></div>
+
+        <div class="pocket"><i class="pl"></i><i class="pr"></i><i class="pb"></i>
+          ${goldLines('0,0 52,52 0,100')}${goldLines('100,0 48,52 100,100')}${goldLines('0,100 50,44 100,100')}
+          <div class="to gtext">With love &amp; prayers</div></div>
+
+        <div class="flap"><div class="face front">${goldLines('0,0 100,0 50,100 0,0')}</div><div class="face rear"></div>
+          <button class="seal" aria-label="Open the envelope">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><g fill="#5a0b22" stroke="#7d1232" stroke-width=".6"><rect x="5" y="5" width="14" height="14"/><rect x="5" y="5" width="14" height="14" transform="rotate(45 12 12)"/></g><circle cx="12" cy="12" r="2.6" fill="#f6e27a"/></svg>
+          </button></div>
+      </div></div>
+      <div class="hint">Tap the seal to open</div>
+    </div>`;
+            $('#app').appendChild(el);
+
+            const q = s => el.querySelector(s);
+            const float = q('.float'), tilt = q('.tilt'), env = q('.env'), flap = q('.flap'), card = q('.card'), flip = q('.flip'),
+                seal = q('.seal'), hint = q('.hint'), shadow = q('.shadow'), back = q('.back'), pocket = q('.pocket');
+            const rv = [...el.querySelectorAll('.rv')], faces = [...el.querySelectorAll('.cface')];
+
+            gsap.set(tilt, { transformPerspective: 1000 });
+            gsap.set(env, { transformPerspective: 1000 });
+            gsap.set(flap, { transformPerspective: 900, transformOrigin: '50% 0' });
+            gsap.set(card, { xPercent: -50 });
+            gsap.set(flip, { transformPerspective: 1400, rotationY: 0 });
+            gsap.set(seal, { z: 2 });
+            gsap.set(rv, { opacity: 0, y: 14 });
+
+            const ctl = { el, tilt, tiltK: 1, opened: false, tl: null, idle: [] };
+
+            ctl.enter = () => {
+                busy = false;
+                gsap.fromTo(float, { opacity: 0, scale: .82, y: 20 }, {
+                    opacity: 1, scale: 1, y: 0, duration: 1.1, ease: 'power3.out', onComplete: () => {
+                        if (ctl.opened || RM) return;
+                        ctl.idle.push(gsap.to(float, { y: -12, duration: 2.4, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+                            gsap.to(shadow, { scaleX: .88, opacity: .7, duration: 2.4, yoyo: true, repeat: -1, ease: 'sine.inOut' }));
+                    }
+                });
+                gsap.fromTo(shadow, { opacity: 0 }, { opacity: 1, duration: 1.1 });
+            };
+
+            seal.addEventListener('click', () => {
+                if (ctl.opened) return; ctl.opened = true; seal.disabled = true;
+                ctl.idle.forEach(t => t.kill());
+                gsap.to(float, { y: 0, duration: .5, ease: 'power2.out', overwrite: 'auto' });
+                gsap.to(shadow, { scaleX: 1, opacity: 1, duration: .5 });
+
+                const r = env.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+                const sr = seal.getBoundingClientRect(), sx = sr.left + sr.width / 2, sy = sr.top + sr.height / 2;
+                const h = env.offsetHeight;
+                const Wf = Math.min(520, innerWidth * .92), Hf = Math.max(320, Math.min(innerHeight - 110, 720));
+                const yFinal = Hf / 2 - (h / 2 - 12);
+
+                const tl = ctl.tl = gsap.timeline();
+                tl.add(() => { hint.style.animation = 'none' }, 0)
+                    .to(hint, { opacity: 0, y: 10, duration: .3 }, 0)
+                    // 1) seal pops, first flare
+                    .to(seal, { scale: 1.3, duration: .18, ease: 'power2.out' }, 0)
+                    .add(() => { burst(sx, sy, 70, 1); flash(sx, sy, .8) }, .12)
+                    .to(seal, { scale: 0, opacity: 0, duration: .3, ease: 'back.in(2)' }, .18)
+                    // 2) flap swings open in 3D
+                    .to(flap, { rotationX: 180, duration: 1.2, ease: 'power2.inOut' }, .35)
+                    .add(() => { flap.style.zIndex = 1 }, .95)
+                    .to(env, { rotationX: 6, duration: .8, ease: 'power2.inOut', yoyo: true, repeat: 1 }, .35)
+                    // 3) card slides up out of the envelope
+                    .add(() => { burst(cx, cy - h * .3, 100, 1.1); flash(cx, cy - h * .2, 1.2) }, 1.35)
+                    .to(card, { y: -(h + 20), duration: 1.5, ease: 'power2.out' }, 1.3)
+                    .to(card, { rotation: -3, duration: .75, ease: 'sine.inOut', yoyo: true, repeat: 1 }, 1.3)
+                    // 4) card flies forward, grows and FLIPS to reveal the invitation
+                    .add(() => { card.style.zIndex = 6; ctl.tiltK = .2; lightsOn() }, 2.8)
+                    .to(card, { width: Wf, height: Hf, y: yFinal, duration: 1.7, ease: 'power3.inOut' }, 2.8)
+                    .to(flip, { rotationY: 180, duration: 1.7, ease: 'power3.inOut' }, 2.8)
+                    .to(env, { rotationX: 0, duration: .6 }, 2.8)
+                    .to([back, pocket, flap], { y: innerHeight * .45, scale: .8, opacity: 0, duration: 1.3, ease: 'power2.in' }, 2.9)
+                    .to(faces, { boxShadow: '0 30px 90px rgba(0,0,0,.6),0 0 90px rgba(246,200,90,.45),0 0 0 1px rgba(166,124,26,.9)', duration: 1.2 }, 3.3)
+                    .add(() => { burst(innerWidth / 2, innerHeight / 2, 130, 1.3); flash(innerWidth / 2, innerHeight / 2, 1.8) }, 4.0)
+                    // 5) details appear one by one
+                    .add(() => {
+                        card.style.pointerEvents = 'auto';
+                        gsap.to(rv, { opacity: 1, y: 0, duration: 1, stagger: .22, ease: 'power2.out' });
+                        petalRain(70);
+                        burst(innerWidth * .15, innerHeight * .85, 35, .9); burst(innerWidth * .85, innerHeight * .85, 35, .9);
+                    }, 4.5)
+                    .to(replay, { opacity: 1, pointerEvents: 'auto', duration: .8 }, 6.5);
+                if (RM) tl.timeScale(2.2);
+            });
+            return ctl;
+        }
+        replay.addEventListener('click', () => location.reload());
+    </script>
+</body>
+
+</html>
